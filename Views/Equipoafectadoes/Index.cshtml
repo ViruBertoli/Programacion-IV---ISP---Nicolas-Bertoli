@@ -1,0 +1,66 @@
+﻿@model IEnumerable<PlanCanjeWeb.Models.Equipoafectado>
+
+@{
+    ViewData["Title"] = "Plan Canje";
+}
+
+<h1>Listado de equipos afectados en solicitud de canje</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Nuevo registro</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Cliente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModeloDrive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumeroSerie)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaFabricacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FallaDeclarada)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CorreoElectronico)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cliente)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModeloDrive)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumeroSerie)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaFabricacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FallaDeclarada)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CorreoElectronico)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secondary">Editar</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Detalles</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,32 +1,61 @@
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using PlanCanjeWeb.Data;
 using PlanCanjeWeb.Models;
-using System.Diagnostics;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace PlanCanjeWeb.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly BasedatosCanje _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(BasedatosCanje context)
         {
-            _logger = logger;
+            _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
+        {
+            return View(await _context.Equipoafectados.ToListAsync());
+        }
+
+        [HttpGet]
+        public IActionResult Login()
         {
             return View();
         }
 
-        public IActionResult Privacy()
+        [HttpPost]
+        public async Task<IActionResult> Login(string username, string password)
         {
+            if (username == "admin" && password == "admin")
+            {
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, username)
+                };
+
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+
+                return RedirectToAction("Index", "Equipoafectadoes");
+            }
+
+            ViewBag.Error = "Invalid username or password";
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public async Task<IActionResult> Logout()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index");
         }
     }
 }

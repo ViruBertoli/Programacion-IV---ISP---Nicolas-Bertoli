@@ -11,8 +11,8 @@ using PlanCanjeWeb.Data;
 namespace PlanCanjeWeb.Migrations
 {
     [DbContext(typeof(BasedatosCanje))]
-    [Migration("20240724214526_ChangeFechaFabricacionToString")]
-    partial class ChangeFechaFabricacionToString
+    [Migration("20240728125658_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

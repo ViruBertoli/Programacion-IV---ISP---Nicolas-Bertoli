@@ -1,8 +1,22 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<PlanCanjeWeb.Models.Equipoafectado>
+
+@{
+    ViewData["Title"] = "Inicio Plan Canje";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h1>Registro de productos Plan Canje</h1>
+
+<div class="d-flex justify-content-center">
+    <a asp-controller="Equipoafectadoes" asp-action="Create" class="btn btn-primary btn-lg" style="width: 200px; text-align: center;">Registrar Nuevo Equipo</a>
 </div>
+@{
+    var successMessage = TempData["SuccessMessage"] as string;
+}
+
+@if (!string.IsNullOrEmpty(successMessage))
+{
+    <div class="alert alert-success">
+        @successMessage
+    </div>
+}
+    

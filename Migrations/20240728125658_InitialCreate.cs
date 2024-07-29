@@ -1,14 +1,13 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace PlanCanjeWeb.Migrations
 {
-    /// <inheritdoc />
+  
     public partial class InitialCreate : Migration
     {
-        /// <inheritdoc />
+       
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -20,7 +19,7 @@ namespace PlanCanjeWeb.Migrations
                     Cliente = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ModeloDrive = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NumeroSerie = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FechaFabricacion = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FechaFabricacion = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FallaDeclarada = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CorreoElectronico = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -30,7 +29,6 @@ namespace PlanCanjeWeb.Migrations
                 });
         }
 
-        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

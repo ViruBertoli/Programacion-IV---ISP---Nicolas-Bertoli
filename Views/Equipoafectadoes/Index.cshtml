@@ -1,17 +1,27 @@
 ﻿@model IEnumerable<PlanCanjeWeb.Models.Equipoafectado>
 
 @{
-    ViewData["Title"] = "Plan Canje";
+    ViewData["Title"] = "Inicio";
 }
 
-<h1>Listado de equipos afectados en solicitud de canje</h1>
+<h2>Listado de Equipos Afectados</h2>
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">Nuevo registro</a>
-</p>
-<table class="table">
+<form asp-action="Index" method="get">
+    <div class="form-group">
+        <input type="text" name="searchString" class="form-control" placeholder="Buscar..." value="@ViewData["CurrentFilter"]">
+        <div class="mt-2">
+            <input type="submit" value="Buscar" class="btn btn-primary">
+            <a asp-action="Index" class="btn btn-secondary">Limpiar</a>
+        </div>
+    </div>
+</form>
+
+<table class="table table-striped">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Cliente)
             </th>
@@ -38,6 +48,9 @@
         {
             <tr>
                 <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Cliente)
                 </td>
                 <td>
@@ -56,7 +69,7 @@
                     @Html.DisplayFor(modelItem => item.CorreoElectronico)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secondary">Editar</a> |
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Editar</a> |
                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Detalles</a> |
                     <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Eliminar</a>
                 </td>

@@ -1,0 +1,76 @@
+/* custom.css */
+
+/* Fondo para la página principal */
+body {
+    background: url('/images/background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Fondo del encabezado */
+header {
+    background-color: #343a40;
+    color: white;
+}
+
+    header .navbar-brand, header .nav-link {
+        color: white;
+    }
+
+        header .nav-link:hover {
+            color: #ffc107;
+        }
+
+/* Botones personalizados */
+.btn-custom {
+    background-color: #007bff;
+    color: white !important;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    margin-left: 0.5rem;
+    text-align: center;
+}
+
+    .btn-custom:hover {
+        background-color: #0056b3;
+    }
+
+/* Estilo del pie de página */
+footer {
+    background-color: #343a40;
+    color: white;
+    padding: 1rem 0;
+    text-align: center;
+}
+
+/* Estilo del contenedor principal */
+.container {
+    background-color: rgba(255, 255, 255, 0.8); /* Transparencia ajustada */
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Ajustes adicionales para botones */
+button, .btn {
+    color: white;
+}
+
+/* Personalizar botones de navegación */
+.navbar-nav .nav-item .nav-link.btn-custom {
+    background-color: #007bff;
+    border: none;
+    padding: 0.5rem 1rem;
+}
+
+    .navbar-nav .nav-item .nav-link.btn-custom:hover {
+        background-color: #0056b3;
+    }
+
+/* Reducir el tamaño del contenedor de los botones */
+.navbar .container {
+    max-width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}

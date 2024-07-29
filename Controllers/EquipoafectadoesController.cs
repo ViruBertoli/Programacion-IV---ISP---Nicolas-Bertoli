@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PlanCanjeWeb.Data;
 using PlanCanjeWeb.Models;
-
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace PlanCanjeWeb.Controllers
 {
+    [Authorize]
     public class EquipoafectadoesController : Controller
     {
         private readonly BasedatosCanje _context;
@@ -20,11 +18,28 @@ namespace PlanCanjeWeb.Controllers
             _context = context;
         }
 
-       public async Task<IActionResult> Index()
+       
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Equipoafectados.ToListAsync());
+            ViewData["CurrentFilter"] = searchString;
+
+            var equipoafectados = from e in _context.Equipoafectados
+                                  select e;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                equipoafectados = equipoafectados.Where(e => e.Cliente.Contains(searchString) ||
+                                                             e.ModeloDrive.Contains(searchString) ||
+                                                             e.NumeroSerie.Contains(searchString) ||
+                                                             e.FechaFabricacion.Contains(searchString) ||
+                                                             e.FallaDeclarada.Contains(searchString) ||
+                                                             e.CorreoElectronico.Contains(searchString));
+            }
+
+            return View(await equipoafectados.ToListAsync());
         }
 
+       
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -42,12 +57,13 @@ namespace PlanCanjeWeb.Controllers
             return View(equipoafectado);
         }
 
-  
+       
         public IActionResult Create()
         {
             return View();
         }
 
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Cliente,ModeloDrive,NumeroSerie,FechaFabricacion,FallaDeclarada,CorreoElectronico")] Equipoafectado equipoafectado)
@@ -56,7 +72,8 @@ namespace PlanCanjeWeb.Controllers
             {
                 _context.Add(equipoafectado);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                TempData["SuccessMessage"] = "Equipo registrado con éxito.";
+                return RedirectToAction("Index", "Home");
             }
             return View(equipoafectado);
         }
@@ -77,7 +94,7 @@ namespace PlanCanjeWeb.Controllers
             return View(equipoafectado);
         }
 
-        
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Cliente,ModeloDrive,NumeroSerie,FechaFabricacion,FallaDeclarada,CorreoElectronico")] Equipoafectado equipoafectado)
@@ -110,7 +127,7 @@ namespace PlanCanjeWeb.Controllers
             return View(equipoafectado);
         }
 
-        // GET: Equipoafectadoes/Delete/5
+       
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -128,17 +145,13 @@ namespace PlanCanjeWeb.Controllers
             return View(equipoafectado);
         }
 
-        // POST: Equipoafectadoes/Delete/5
+       
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var equipoafectado = await _context.Equipoafectados.FindAsync(id);
-            if (equipoafectado != null)
-            {
-                _context.Equipoafectados.Remove(equipoafectado);
-            }
-
+            _context.Equipoafectados.Remove(equipoafectado);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
@@ -147,6 +160,5 @@ namespace PlanCanjeWeb.Controllers
         {
             return _context.Equipoafectados.Any(e => e.Id == id);
         }
-
     }
 }
